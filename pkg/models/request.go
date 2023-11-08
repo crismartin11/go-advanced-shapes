@@ -2,8 +2,6 @@ package models
 
 import (
 	"strings"
-
-	"github.com/rs/zerolog/log"
 )
 
 const ELLIPSE string = "ELLIPSE"
@@ -20,7 +18,6 @@ type Request struct {
 
 func (r Request) IsValidShapeType() bool {
 	shapeType := strings.ToUpper(r.ShapeType)
-	log.Error().Str("ShapeType Upper", shapeType).Msg("Handle Shape. Invalid shape type.")
 	return shapeType == ELLIPSE || shapeType == RECTANGLE || shapeType == TRIANGLE
 }
 

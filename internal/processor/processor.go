@@ -82,6 +82,11 @@ func (p Processor) ProcessGeneration(ctx context.Context, request models.Request
 		shapes = append(shapes, elem)
 	}
 
+	if len(shapes) == 0 {
+		log.Info().Msg("ProcessGeneration. Generate shape list file handler finished with empty list.")
+		return models.NewResponseOk("Generation file process successful! Empty list (file wasn't generated)")
+	}
+
 	// Generate file
 	log.Info().Msg("ProcessGeneration. Generating file.")
 	fileReader, err := utils.GetFileReader(shapes)

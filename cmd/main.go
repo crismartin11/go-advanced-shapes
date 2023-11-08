@@ -15,7 +15,8 @@ import (
 
 func main() {
 
-	dy := d.NewDynamoDB()
+	//dy := d.NewDynamoDB()
+	dy := d.NewAdapterDynamoDB()
 	s3r := s.NewS3Repository()
 	us := services.NewUserDataService(&http.Client{})
 	p := processor.New(dy, s3r, us)
