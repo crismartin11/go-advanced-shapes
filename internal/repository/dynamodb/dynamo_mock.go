@@ -35,3 +35,8 @@ func (m *MockClient) PutItem(ctx context.Context, params *dynamodb.PutItemInput,
 	args := m.Called(ctx, params, optFns)
 	return args.Get(0).(*dynamodb.PutItemOutput), args.Error(1)
 }
+
+func (m *MockClient) ExecuteStatement(ctx context.Context, params *dynamodb.ExecuteStatementInput, optFns ...func(*dynamodb.Options)) (*dynamodb.ExecuteStatementOutput, error) {
+	args := m.Called(ctx, params, optFns)
+	return args.Get(0).(*dynamodb.ExecuteStatementOutput), args.Error(1)
+}
