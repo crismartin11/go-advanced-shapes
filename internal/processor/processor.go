@@ -89,7 +89,8 @@ func (p Processor) ProcessGeneration(ctx context.Context, request models.Request
 
 	// Generate file
 	log.Info().Msg("ProcessGeneration. Generating file.")
-	fileReader, err := utils.GetFileReader(shapes)
+	//fileReader, err := utils.GetFileReader(shapes)
+	fileReader, err := utils.GetFileReaderChannels(shapes)
 	if err != nil {
 		log.Error().Msg("ProcessGeneration. Error generating file.")
 		return models.NewResponseError(400, fmt.Sprintf("ERROR: %s", err))

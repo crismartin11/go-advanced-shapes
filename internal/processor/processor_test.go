@@ -20,10 +20,6 @@ var _ = Describe("Service", func() {
 
 func processCreatio() {
 	Context("On execute process creation", func() {
-
-		//body := io.NopCloser(strings.NewReader(`{"data": { "email": "cris@gmail.com" }}`))
-		//emptyBody := io.NopCloser(strings.NewReader(`{}`))
-		//models.Request{Id: "1", ShapeType: "RECTANGLE", A: 15.2, B: 15.4}
 		var userData models.UserDataResponse
 		userData.Data.Email = "cr@gmail.com"
 
@@ -88,6 +84,13 @@ func processCreatio() {
 				A:         15.4,
 				B:         12.9,
 				Creator:   "cr@gmail.com",
+			},
+			{
+				Id:        "2",
+				ShapeType: "TRIANGLE",
+				A:         14.1,
+				B:         13.7,
+				Creator:   "cri@gmail.com",
 			},
 		}
 
