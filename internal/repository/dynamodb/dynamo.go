@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/rs/zerolog/log"
 )
 
 type DynamoDB struct {
@@ -38,6 +39,7 @@ func NewDynamoDB() IDynamoDB {
 }
 
 func (d DynamoDB) ListShapesByType(shapeType string) ([]models.Request, error) {
+	sublogger := log.With().Str("component", "ListShapesByType").Logger()
 	shapes := []models.Request{}
 
 	output, err := d.client.Query(context.TODO(), &dynamodb.QueryInput{
@@ -55,7 +57,7 @@ func (d DynamoDB) ListShapesByType(shapeType string) ([]models.Request, error) {
 		return shapes, fmt.Errorf("ListShapesByType. Error al invocar API Query. %s", err)
 	}
 	if len(output.Items) == 0 {
-		fmt.Println("ListShapesByType. No se encontraron shapes")
+		sublogger.Error().Msg("Empty shapes")
 		return shapes, nil
 	}
 

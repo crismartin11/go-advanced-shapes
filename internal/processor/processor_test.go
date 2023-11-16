@@ -15,10 +15,10 @@ import (
 )
 
 var _ = Describe("Service", func() {
-	Context("On ProcessCreation", processCreatio)
+	Context("On ProcessCreation", processCreation)
 })
 
-func processCreatio() {
+func processCreation() {
 	Context("On execute process creation", func() {
 		var userData models.UserDataResponse
 		userData.Data.Email = "cr@gmail.com"

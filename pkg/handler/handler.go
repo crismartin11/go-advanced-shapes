@@ -33,18 +33,19 @@ func New(p processor.IProcessor, v validator.Validator) IHandler {
 var ginLambda *ginadapter.GinLambda
 
 func (h Handler) HandleApiRest(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	log.Info().Msg("HandleApiRest started")
+	sublogger := log.With().Str("component", "HandleApiRest").Logger()
+	sublogger.Info().Msg("HandleApiRest started")
 	r := gin.Default()
 
+	// Read method
 	r.POST("/read", func(c *gin.Context) {
-		log.Info().Msg("Http /read")
 		shapetype := c.Param("shapetype")
-		log.Info().Msg("redirect request for shapetype " + shapetype)
+		sublogger.Info().Str("shapetype", shapetype).Msg("Http /read")
 
 		var req models.Request
 		err := c.ShouldBind(&req)
 		if err != nil {
-			log.Error().Msg("Handle. Error in Bind.")
+			sublogger.Error().Msg("Error in Bind.")
 			c.JSON(http.StatusBadRequest, gin.H{
 				"body":  "",
 				"error": err.Error(),
@@ -54,7 +55,7 @@ func (h Handler) HandleApiRest(ctx context.Context, req events.APIGatewayProxyRe
 
 		err = h.v.ValidateRequest(req)
 		if err != nil {
-			log.Error().Msg("Handle. Error in validation.")
+			sublogger.Error().Msg("Error in validation.")
 			c.JSON(http.StatusBadRequest, gin.H{
 				"body":  "",
 				"error": err.Error(),
@@ -72,15 +73,15 @@ func (h Handler) HandleApiRest(ctx context.Context, req events.APIGatewayProxyRe
 		})
 	})
 
+	// Create method
 	r.POST("/create", func(c *gin.Context) {
-		log.Info().Msg("Http /create")
 		shapetype := c.Param("shapetype")
-		log.Info().Msg("redirect request for shapetype " + shapetype)
+		sublogger.Info().Str("shapetype", shapetype).Msg("Http /create")
 
 		var req models.Request
 		err := c.ShouldBind(&req)
 		if err != nil {
-			log.Error().Msg("Handle. Error in bind.")
+			sublogger.Error().Msg("Error in bind.")
 			c.JSON(http.StatusBadRequest, gin.H{
 				"body":  "",
 				"error": err.Error(),
@@ -90,7 +91,7 @@ func (h Handler) HandleApiRest(ctx context.Context, req events.APIGatewayProxyRe
 
 		err = h.v.ValidateRequest(req)
 		if err != nil {
-			log.Error().Msg("Handle. Error in validation.")
+			sublogger.Error().Msg("Error in validation.")
 			c.JSON(http.StatusBadRequest, gin.H{
 				"body":  "",
 				"error": err.Error(),

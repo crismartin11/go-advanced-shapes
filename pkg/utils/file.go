@@ -65,7 +65,8 @@ func writeInBuffer(buffer *bytes.Buffer, sh models.IShape, wg *sync.WaitGroup, m
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 func GetFileReaderChannels(shapes []models.IShape) (io.Reader, error) {
-	log.Info().Msg("CHANNELS. Start")
+	sublogger := log.With().Str("component", "GetFileReaderChannels").Logger()
+	sublogger.Info().Msg("Start")
 
 	var buffer bytes.Buffer
 	channelDetails := make(chan string)
@@ -73,18 +74,19 @@ func GetFileReaderChannels(shapes []models.IShape) (io.Reader, error) {
 	go makeDetails(channelDetails, shapes)
 
 	for detail := range channelDetails {
-		log.Info().Msg(fmt.Sprintf("CHANNELS. Read Detail %s", detail))
+		sublogger.Info().Str("topic", "channels").Msg(fmt.Sprintf("Read Detail %s", detail))
 		buffer.WriteString(detail + "\n")
 	}
 
-	log.Info().Msg(fmt.Sprintf("CHANNELS. End. %s", buffer.String()))
+	sublogger.Info().Str("topic", "channels").Msg(fmt.Sprintf("End. %s", buffer.String()))
 	reader := strings.NewReader(buffer.String())
 	return reader, nil
 }
 
 func makeDetails(channelDetails chan string, shapes []models.IShape) {
+	sublogger := log.With().Str("component", "makeDetails").Logger()
 	for i, sh := range shapes {
-		log.Info().Msg(fmt.Sprintf("CHANNELS. Make Detail %s. Iteration %d", sh.Detail(), i))
+		sublogger.Info().Str("topic", "channels").Msg(fmt.Sprintf("Make Detail %s. Iteration %d", sh.Detail(), i))
 		channelDetails <- sh.Detail()
 		//time.Sleep(2 * time.Second)
 	}

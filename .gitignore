@@ -1,3 +1,5 @@
 .serverless
 
 build/*
+build/main
+buildWin.bat

@@ -12,6 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/rs/zerolog/log"
 )
 
 // NOTE: this service exist just for apply the Adapter method.
@@ -22,7 +23,7 @@ type ServiceForAdapter struct {
 
 type IServiceForAdapter interface {
 	ListShapesByTypePartiQl(shapeType string) ([]models.Request, error)
-	CreateShapePartiQl(id string, shapeType string, a float64, b float64, creator string) error // TODO: pasar objeto
+	CreateShapePartiQl(id string, shapeType string, a float64, b float64, creator string) error // Note: I should pass an object as a param
 }
 
 func NewServiceForAdapter() IServiceForAdapter {
@@ -35,14 +36,15 @@ func NewServiceForAdapter() IServiceForAdapter {
 }
 
 func (s ServiceForAdapter) ListShapesByTypePartiQl(shapeType string) ([]models.Request, error) {
-	fmt.Println("ListShapesByType service for adapter")
+	sublogger := log.With().Str("component", "ListShapesByTypePartiQl").Logger()
+	sublogger.Info().Msg("ListShapesByType service for adapter started")
 	shapes := []models.Request{}
 
 	var lastEvaluatedKey map[string]types.AttributeValue
 	i := 0
 	for {
 		i++
-		fmt.Printf("Pagination. Page %d\n", i)
+		sublogger.Info().Str("topic", "Pagination").Msg(fmt.Sprintf("Page %d\n", i))
 
 		// Query
 		queryInput := &dynamodb.QueryInput{
@@ -80,9 +82,9 @@ func (s ServiceForAdapter) ListShapesByTypePartiQl(shapeType string) ([]models.R
 		// Evaluate loop
 		if output.LastEvaluatedKey != nil {
 			lastEvaluatedKey = output.LastEvaluatedKey
-			fmt.Println("Pagination. LastEvaluatedKey is not nil so next page")
+			sublogger.Info().Str("topic", "Pagination").Msg("LastEvaluatedKey is not nil so next page")
 		} else {
-			fmt.Println("Pagination. LastEvaluatedKey is nil so break")
+			sublogger.Info().Str("topic", "Pagination").Msg("LastEvaluatedKey is nil so break")
 			break
 		}
 	}
@@ -91,7 +93,8 @@ func (s ServiceForAdapter) ListShapesByTypePartiQl(shapeType string) ([]models.R
 }
 
 func (s ServiceForAdapter) CreateShapePartiQl(id string, shapeType string, a float64, b float64, creator string) error {
-	fmt.Println("CreateShape service for adapter")
+	sublogger := log.With().Str("component", "CreateShapePartiQl").Logger()
+	sublogger.Info().Msg("CreateShape service for adapter started")
 
 	params, err := attributevalue.MarshalList([]interface{}{id, shapeType, a, b, creator})
 	if err != nil {

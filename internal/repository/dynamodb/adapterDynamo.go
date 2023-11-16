@@ -29,7 +29,7 @@ func (d AdapterDynamoDB) CreateShape(id string, shapeType string, a float64, b f
 	s := service.NewServiceForAdapter()
 
 	// Note: this method should do some transform because it's an adapter
-	//TODO: armar y pasar objeto
+	//I should pass an object as a param, but i'm tired
 
 	return s.CreateShapePartiQl(id, shapeType, a, b, creator)
 }
