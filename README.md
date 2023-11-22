@@ -52,3 +52,5 @@ Tanto el build como el deploy pueden ejecutarse por medio del Makefile incluido 
  - Hay logs en exceso en algunas partes solo para ver el comportamiento de, por ejemplo, uso de channels. En otros lugares faltaron logs, por ejemplo en algunos de los servicios.
  - Las constants son configuraciones que deberían ir como variables de ambiente.
  - Dejé algunas lineas comentadas concientemente, para destacar el cambio. También alguno métodos deprecados, y notas en varios lugares.
+ - El uso de goroutines y channels no se aplicó directamente sobre el cálculo del área sino a la generación del detalle de cada figura, ya que el método detail() contien el cálculo del área (ver models/shape.go)
+ - Para implementar el patrón adapter se agregó un servicio (service_for_adapter.go) que ejecuta las consultas a dynamo con PartiQL y usa paginación (aprovecho a aplicar esos dos requisitos del ejercicio), algo que debería estar en el repositorio pero lo estructuré así para simular un servicio que requiere adaptación.

@@ -36,5 +36,6 @@ package:
   patterns:
     - '!*/**'
     - build/main
-#plugins:
-  #- serverless-better-credentials
+# just to deploy with sso credentials (lets comment the plugin in other case)
+plugins: 
+  - serverless-better-credentials
