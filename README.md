@@ -19,10 +19,12 @@ En el caso de la creación recibe como parámetros de entrada el campo "tipo" qu
 
 Tanto para el proceso de generación de archivo txt como para creación de figura se genera un endpoint al que se puede acceder desde Postman. No requieren pasar credenciales.
 
+# Despliegue en uala-global.labssupport-dev
+A continuación se encuentra la sección de Build and Deploy, aún así esto ya se encuentra desplegado en la cuenta uala-global-labssuport-dev para pruebas. Se puede probar desde Postman con los request de ejemplo más abajo.
 
 endpoints:
-  POST - https://1ezf6ebpj5.execute-api.us-east-1.amazonaws.com/dev/read
-  POST - https://1ezf6ebpj5.execute-api.us-east-1.amazonaws.com/dev/create
+  POST - https://z2f0loob18.execute-api.us-east-1.amazonaws.com/dev/read
+  POST - https://z2f0loob18.execute-api.us-east-1.amazonaws.com/dev/create
 functions:
   api: go-advanced-shapes-dev-api
 

@@ -2,9 +2,9 @@ service: go-advanced-shapes
 frameworkVersion: '>=1.28.8'
 provider:
   name: aws
+  stage: dev
   runtime: go1.x
   region: 'us-east-1'
-  stage: ${opt:stage}
   iam:
     role:
       statements:
@@ -17,7 +17,8 @@ provider:
           Action:
             - 's3:PutObject'
           Resource:
-            - 'arn:aws:s3:::uala-arg-labssupport-local/*'
+            - 'arn:aws:s3:::uala-arg-labssupport-dev/*'
+            #- 'arn:aws:s3:::uala-arg-labssupport-local/*'
         - Effect: Allow
           Action: 'dynamodb:*'
           Resource: '*'
@@ -35,3 +36,5 @@ package:
   patterns:
     - '!*/**'
     - build/main
+#plugins:
+  #- serverless-better-credentials

@@ -4,3 +4,5 @@
 /build/main
 
 buildWin.bat
+
+node_modules
